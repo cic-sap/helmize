@@ -1,0 +1,7 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ template "fullname" . }}-config
+data:
+{{ (.Files.Glob "conf/*.yaml").AsConfig | indent 2  }}
+

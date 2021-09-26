@@ -1,0 +1,78 @@
+location: _
+# auto injection
+domain: ""
+images: {}
+
+DEBUG: true
+
+serviceAccount:
+  enabled: true
+  name: "bom-ctl"
+
+default_env:
+  - name: "GIN_MODE"
+    value: "release"
+  - name: "SYNC_HOOK"
+    value: "http://127.0.0.1:8086/resync"
+  - name: "TMPDIR"
+    value: "/workspace/tmp"
+  - name: "OCI_CONFIG_PATH"
+    value: "/app/config/configmap/oci.yaml"
+  - name: "BOM_CONFIG_PATH"
+    value: "/app/config/configmap/config.yaml"
+
+repo:
+  git_token: ""
+  git_sync_image: k8s.gcr.io/git-sync:v3.1.6
+  bom_app_repo:
+    repo_url: ""
+    # must be same as conf/config.yaml
+    root_path: /workspace/bom
+    subpath: workdir
+
+  cluser_repo:
+    repo_url: ""
+    # must be same as conf/config.yaml
+    root_path: /workspace/cluster
+    subpath: workdir
+
+resources:
+  requests:
+    cpu: 1000m
+    memory: 1000Mi
+  limits:
+    cpu: 8000m
+    memory: 24000Mi
+ecc:
+  publickey: "04c3ee81ee1490a1430b1590230777c7e01d70d76140d823c111c1207e8f264878dba1af9cade4423f70edd39b1d4cc604331147db8217ec5dca226dec6810ba13"
+  publickey_compress: "03c3ee81ee1490a1430b1590230777c7e01d70d76140d823c111c1207e8f264878"
+  privatekey: "AgCwWapNRV57T62aZfwd8jEe6eDl8ILcgD3RghpoITkOm0JDDSvvDyOOEN94rD6wKPTAzXydNHU7Al5Dv6xPgnxU3Hipl/4r6JoYOc+t+LmKzVRXnnRHoSN9T+cFQ20Do6VTryhUGoJAANJIOQn1MEwUZaDBpdtu7Chnxa6qJYVTfeyoBs0yUHiiw3e31K9ytEMfvwgmRLluPAYqPQ+oka6k6xkEAj9Xjuqkxd4jQm1wz9OmCySQyNIA6OwFvkqOnX1An03pL348o+S1wJMpjabQDOdqQLlsA5ZT2Zgba9cVX4zdiype44wcOfp3L3yKwA4BZZT3Snu92XPb/Ve4rJV+N8FDR44mNbBDhwFl4ogXQwVzUTIQHD/I2FoGR5aQizitLxXHZB5rlcxFzBy3fUPncvgmVIREn7uVFWHo+JC9d1ye7PuKCcNZjBYr4eD+u183M2HBVYctuKkbxN8CxrGGQ/Q/RohVed891/RNRCbODnAy8CmCDINC845JsKubkngp0f51zpJt2USXJL/+1CHeCIK8R4mvqDByl2nzGZcCZZUT0UhE2yRalXx3QoFTflPBwzIFduqkyQT/HtEETFhp/cCZkd2Tt2LDf4sJCr8/XPiDMXqsXvpxynWoi6aIF1D4BXBrO4K0iwfFFCeIgYMKMVFVs+PZ8rgkhAXPbsym6iL+HiPtu+fsO7BkDKL5QWZiJp/GWnKnyfynrsYirslM+8XapSsDOBU6sA6wk3XXhvM8GHomomNYJGuacrjHdt/teF3CViaXArCeGwSwvrP5"
+  sub_domain: ecc
+
+api:
+  sub_domain: bom-api
+
+service:
+  webport: 8080
+
+slowTest:
+  enabled: false
+
+eureka:
+  envs: {}
+
+redis_password: R1k0T0RrMlo=
+
+redis:
+  # redis.enabled -- Whether to deploy a Redis server to satisfy the applications database requirements. To use an external Redis set this to false and configure the externalRedis parameter.
+  enabled: true
+  existingSecret: redis-key
+  # password:
+  # redis.databaseNumber -- Redis database number to use (when redis chart enabled)
+  databaseNumber: 0
+  master:
+    # redis.master.port -- Redis master port to use (when redis chart enabled)
+    port: 6379
+  cluster:
+    # redis.databaseNumber -- Enable Redis clustering (when redis chart enabled)
+    enabled: false
