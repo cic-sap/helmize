@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-set -ex
+set -x
 # Shamelessly copied from https://github.com/technosophos/helm-template
 
 PROJECT_NAME="helmize"
