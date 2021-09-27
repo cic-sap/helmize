@@ -34,7 +34,7 @@ type upgradeCmd struct {
 	showSecrets              bool
 	postRenderer             string
 	output                   string
-	install                  bool
+	install                  *bool
 	stripTrailingCR          bool
 	normalizeManifests       bool
 }
@@ -94,7 +94,7 @@ set for a key called 'foo', the 'newbar' value would take precedence:
 	f.BoolVar(&diff.reuseValues, "reuse-values", false, "reuse the last release's values and merge in any new values. If '--reset-values' is specified, this is ignored")
 	f.BoolVar(&diff.resetValues, "reset-values", false, "reset the values to the ones built into the chart and merge in any new values")
 	f.BoolVar(&diff.allowUnreleased, "allow-unreleased", false, "enables diffing of releases that are not yet deployed via Helm")
-	f.BoolVar(&diff.install, "install", false, "enables diffing of releases that are not yet deployed via Helm (equivalent to --allow-unreleased, added to match \"helm upgrade --install\" command")
+	diff.install = f.BoolP("install", "i", false, "enables diffing of releases that are not yet deployed via Helm (equivalent to --allow-unreleased, added to match \"helm upgrade --install\" command")
 	f.BoolVar(&diff.noHooks, "no-hooks", false, "disable diffing of hooks")
 	f.BoolVar(&diff.includeTests, "include-tests", false, "enable the diffing of the helm test hooks")
 	f.BoolVar(&diff.devel, "devel", false, "use development versions, too. Equivalent to version '>0.0.0-0'. If --version is set, this is ignored.")
