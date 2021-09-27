@@ -1,5 +1,6 @@
+#!/usr/bin/env bash
 
-export VERSION=0.1.0
+export VERSION=$(git -C "$HELM_PLUGIN_DIR" describe --tags --exact-match 2>/dev/null || :)
 export CURDIR=`pwd`
 export PKG=github.com/cic-sap/helmize
 
