@@ -8,7 +8,7 @@ export GREP_COLOR="never"
 
 HELM_MAJOR_VERSION=$("${HELM_BIN}" version --client --short | awk -F '.' '{print $1}')
 
-: ${HELM_PLUGIN_DIR:="$("${HELM_BIN}" home --debug=false)/plugins/helm-diff"}
+: ${HELM_PLUGIN_DIR:="$("${HELM_BIN}" home --debug=false)/plugins/helmize"}
 
 # Convert the HELM_PLUGIN_DIR to unix if cygpath is
 # available. This is the case when using MSYS2 or Cygwin
@@ -101,7 +101,7 @@ installFile() {
   HELM_TMP="/tmp/$PROJECT_NAME"
   mkdir -p "$HELM_TMP"
   tar xf "$PLUGIN_TMP_FILE" -C "$HELM_TMP"
-  HELM_TMP_BIN="$HELM_TMP/diff/bin/diff"
+  HELM_TMP_BIN="$HELM_TMP/helmize/bin/helmize"
   echo "Preparing to install into ${HELM_PLUGIN_DIR}"
   mkdir -p "$HELM_PLUGIN_DIR/bin"
   cp "$HELM_TMP_BIN" "$HELM_PLUGIN_DIR/bin"
@@ -121,7 +121,7 @@ fail_trap() {
 testVersion() {
   set +e
   echo "$PROJECT_NAME installed into $HELM_PLUGIN_DIR/$PROJECT_NAME"
-  "${HELM_PLUGIN_DIR}/bin/diff" -h
+  "${HELM_PLUGIN_DIR}/bin/helmize" -h
   set -e
 }
 
