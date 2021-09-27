@@ -1,5 +1,5 @@
 name: "helmize"
-version: "0.1.0"
+version: "0.1.1"
 usage: "helm helmize -n test my-release current_charts_path"
 description: "auto inject labels and annotations into exists resources"
 ignoreFlags: false
