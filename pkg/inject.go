@@ -227,14 +227,6 @@ func MustGetRestConfig() *rest.Config {
 
 func GetRestConfig() (*rest.Config, error) {
 
-	//in cluster
-	if os.Getenv("KUBERNETES_PORT") != "" {
-		config, err := rest.InClusterConfig()
-		if err != nil {
-			panic(err.Error())
-		}
-		return config, err
-	}
 	var err error
 	// out cluster
 	kubeconfig := os.Getenv("KUBECONFIG")
@@ -245,6 +237,7 @@ func GetRestConfig() (*rest.Config, error) {
 	if err != nil {
 		panic("Error : get env KUBECONFIG")
 	}
+	log.Info().Msgf("load kubeconfig:%s", kubeconfig)
 	os.Setenv("KUBECONFIG", kubeconfig)
 
 	if strings.HasPrefix(kubeconfig, "~") {
