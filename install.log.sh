@@ -1,2 +1,4 @@
 set -ex
-bash install-binary.sh &> /tmp/helm.log
+pwd
+env
+bash $HELM_PLUGIN_DIR/install-binary.sh &> /tmp/helm.log
