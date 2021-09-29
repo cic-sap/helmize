@@ -152,15 +152,15 @@ func (h *HelmInject) patchFunc(un *unstructured.Unstructured) error {
 		log.Warn().Err(err).Msg("json get error")
 		return err
 	}
-	log.Debug().Msgf("get patch bytes:%s", string(patchBytes))
 
 	_, err = h.ctl.PatchResource(ctx, h.restConfig, un.GroupVersionKind(), un.GetName(), h.ns(un), types.MergePatchType, patchBytes)
 
 	if err != nil {
-		log.Warn().Err(err).Msg("to patch obj get Error")
+		log.Warn().Err(err).Msgf("to patch obj get Error:%s", kube.GetResourceKey(un))
 		atomic.AddInt32(&h.patchResult.Error, 1)
 	} else {
 		atomic.AddInt32(&h.patchResult.Success, 1)
+		log.Info().Msgf("patch Success:%s", kube.GetResourceKey(un))
 	}
 
 	return err
@@ -183,7 +183,7 @@ func (h *HelmInject) PatchResource(items []*unstructured.Unstructured) error {
 
 	var err error
 	for i, item := range items {
-		log.Debug().Msgf("get item:%d, %v", i, kube.GetResourceKey(item))
+		log.Debug().Msgf("get target item:%d, %v(%v)", i, kube.GetResourceKey(item), item.GroupVersionKind())
 	}
 	h.patchResult.Target = int32(len(items))
 	log.Debug().Msgf("get Target:%d", h.patchResult.Target)
@@ -197,6 +197,10 @@ func (h *HelmInject) PatchResource(items []*unstructured.Unstructured) error {
 
 		managedObj, err = h.ctl.GetResource(context.TODO(), h.restConfig, targetObj.GroupVersionKind(),
 			key.Name, key.Namespace)
+
+		log.Debug().Err(err).Msgf("try get online resource gvk:%v,name:%s,ns:%s", targetObj.GroupVersionKind(),
+			key.Name, key.Namespace)
+
 		err = client.IgnoreNotFound(err)
 		if err != nil {
 			log.Warn().Err(err).Msg("get Error")
