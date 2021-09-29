@@ -5,7 +5,7 @@ description: "auto inject labels and annotations into exists resources"
 ignoreFlags: false
 command: "$HELM_PLUGIN_DIR/bin/helmize"
 hooks:
-  install: "$HELM_PLUGIN_DIR/install.log.sh"
-  update: "$HELM_PLUGIN_DIR/install.log.sh"
+  install: "$HELM_PLUGIN_DIR/install-binary.sh"
+  update: "$HELM_PLUGIN_DIR/install-binary.sh"
 
 
