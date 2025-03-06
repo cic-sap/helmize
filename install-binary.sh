@@ -73,6 +73,7 @@ getDownloadURL() {
   ARCH=$(uname -m)
   if [ -n "$version" ]; then
     DOWNLOAD_URL="https://github.com/$PROJECT_GH/releases/download/$version/helmize-$OS.$ARCH.tgz"
+    echo $DOWNLOAD_URL
   else
     # Use the GitHub API to find the download url for this project.
     url="https://api.github.com/repos/$PROJECT_GH/releases/latest"
